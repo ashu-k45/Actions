@@ -8,17 +8,25 @@ jobs:
         steps:
         -   name: Install Cowsay
             run: sudo apt-get install cowsay -y
+
         -   name: Execute Cowsay
             run: cowsay -f dragon "Run for cover, I am a dragon" >> dragon.txt
-        -   name: Sleep for 30 sec
-            run: sleep 30
+
+        -   name: Upload dragon file
+            uses: actions/upload-artifact@v4
+            with:
+                name: my-dragon-file
+                path: dragon.txt
+            
 
     test_job:
         needs: build_job
         runs-on: ubuntu-latest
         steps:
-        -   name: Sleep for 10 seconds
-            run: sleep 10
+        -   name: Download dragon file
+            uses: actions/download-artifact@v5
+            with:
+                name: my-dragon-file
         
         -   name: List Repo Files
             run: ls -lrt
@@ -30,7 +38,13 @@ jobs:
         needs: test_job
         runs-on: ubuntu-latest
         steps:
+        -   name: Download dragon file
+            uses: actions/download-artifact@v5
+            with:
+                name: my-dragon-file
+
         -   name: Read file
             run: cat dragon.txt
-        -   name: Deply
+            
+        -   name: Deploy
             run: echo Deploying...
