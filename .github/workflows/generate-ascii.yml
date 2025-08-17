@@ -9,11 +9,12 @@ jobs:
         -   name: Install Cowsay
             run: sudo apt-get install cowsay -y
         -   name: Execute Cowsay
-            run: cowsay -f cat "Run for cover, I am a cat" >> cat.txt
+            run: cowsay -f dragon "Run for cover, I am a dragon" >> dragon.txt
         -   name: Sleep for 30 sec
             run: sleep 30
 
     test_job:
+        needs: build_job
         runs-on: ubuntu-latest
         steps:
         -   name: Sleep for 10 seconds
@@ -23,12 +24,13 @@ jobs:
             run: ls -lrt
 
         -   name: Test file exists
-            run: grep -i "cat" cat.txt
+            run: grep -i "dragon" dragon.txt
     
     deploy_job:
+        needs: test_job
         runs-on: ubuntu-latest
         steps:
         -   name: Read file
-            run: cat cat.txt
+            run: cat dragon.txt
         -   name: Deply
             run: echo Deploying...
