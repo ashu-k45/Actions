@@ -3,16 +3,33 @@ name: Generate ASCII Artwork
 on: push
 
 jobs:
-    ascii_job:
+    build_job:
         runs-on: ubuntu-latest
         steps:
-        -   name: Chcekout repo
-            uses: actions/checkout@v5
+        -   name: Install Cowsay
+            run: sudo apt-get install cowsay -y
+        -   name: Execute Cowsay
+            run: cowsay -f dog "Run for cover, I am a dog" >> dog.txt
+        -   name: Sleep for 30 sec
+            run: sleep 30
+
+    test_job:
+        runs-on: ubuntu-latest
+        steps:
+        -   name: Sleep for 10 seconds
+            run: sleep 10
         
         -   name: List Repo Files
             run: ls -lrt
 
-        -   name: Execute Shell script
-            run: |
-                chmod +x ascii-script.sh
-                ./ascii-script.sh
+        -   name: Test file exists
+            run: grep -i "dog" dog.txt
+    
+    deploy_job:
+        runs-on: ubuntu-latest
+        steps:
+        -   name: Read file
+            run: cat dog.txt
+        -   name: Deply
+            run: echo Deploying...
+            
