@@ -9,7 +9,7 @@ jobs:
         -   name: Install Cowsay
             run: sudo apt-get install cowsay -y
         -   name: Execute Cowsay
-            run: cowsay -f dog "Run for cover, I am a dog" >> dog.txt
+            run: cowsay -f cat "Run for cover, I am a cat" >> cat.txt
         -   name: Sleep for 30 sec
             run: sleep 30
 
@@ -23,13 +23,12 @@ jobs:
             run: ls -lrt
 
         -   name: Test file exists
-            run: grep -i "dog" dog.txt
+            run: grep -i "cat" cat.txt
     
     deploy_job:
         runs-on: ubuntu-latest
         steps:
         -   name: Read file
-            run: cat dog.txt
+            run: cat cat.txt
         -   name: Deply
             run: echo Deploying...
-            
